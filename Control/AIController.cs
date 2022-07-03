@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Combat;
 using RPG.Core;
+using RPG.Movement;
 
 public class AIController : MonoBehaviour
 {
@@ -11,13 +12,19 @@ public class AIController : MonoBehaviour
     [SerializeField] Fighter fighter;
     GameObject player;
     Health health;
+    Mover mover;
 
+
+    Vector3 guardPosition;
 
     private void Start()
     {
         fighter = GetComponent<Fighter>();
         player = GameObject.FindGameObjectWithTag("Player");   
         health = GetComponent<Health>();
+        mover = GetComponent<Mover>();
+        guardPosition = transform.position;
+
     }
 
     private void Update()
@@ -29,7 +36,8 @@ public class AIController : MonoBehaviour
         }
         else
         {
-            fighter.Cancel();
+            //call also CancelAction
+            mover.StartMoveAction(guardPosition); 
         }
  
     }
@@ -38,5 +46,12 @@ public class AIController : MonoBehaviour
     {
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
         return distanceToPlayer < chaseDistance;
+    }
+
+    // called by Unity
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, chaseDistance);
     }
 }
