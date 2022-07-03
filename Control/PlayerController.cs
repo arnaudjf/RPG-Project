@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Combat;
+using RPG.Core;
 using System;
 
 namespace RPG.Control
@@ -10,9 +11,17 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
 
+        Health health;
+
+        public void Start()
+        {
+            health = GetComponent<Health>();
+        }
 
         void Update()
         {
+            if(health.IsDead()) return;
+
             if(InteractWithCombat()) return;
             if(InteractWithMovement()) return;
         }

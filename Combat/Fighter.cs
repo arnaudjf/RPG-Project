@@ -16,7 +16,7 @@ namespace RPG.Combat
 
         [SerializeField] float timeBetweenAttacks = 1f;
 
-        [SerializeField]  float timeSinceLastAttack = 0f;
+        [SerializeField]  float timeSinceLastAttack = Mathf.Infinity;
 
 
         private void Update()
@@ -99,11 +99,5 @@ namespace RPG.Combat
             GetComponent<Animator>().SetTrigger("stopAttack");
         }
 
-
-
-
     }
-
-
-
 }
