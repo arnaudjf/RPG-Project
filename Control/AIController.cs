@@ -1,26 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RPG.Combat;
 
 public class AIController : MonoBehaviour
 {
     
     [SerializeField] float chaseDistance = 5f;
- 
+    [SerializeField] Fighter fighter;
+    GameObject player;
 
-    private void Update()
+
+    private void Start()
     {
-        
-        if(DistanceToPlayer() < chaseDistance)
-        {
-            print(gameObject.name + "Should chase");
-        }
-        
+        fighter = GetComponent<Fighter>();
+        player = GameObject.FindGameObjectWithTag("Player");   
     }
 
-    private float DistanceToPlayer()
+    private void Update()
+    { 
+        if(InAttackRangeOfPlayer() && fighter.CanAttack(player))
+        {
+            fighter.Attack(player);
+        }
+        else
+        {
+            fighter.Cancel();
+        }
+
+    }
+
+    private bool InAttackRangeOfPlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        return Vector3.Distance(player.transform.position, transform.position);
+        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+        return distanceToPlayer < chaseDistance;
     }
 }
