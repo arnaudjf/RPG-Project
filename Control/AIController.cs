@@ -17,7 +17,11 @@ namespace RPG.Control
         [SerializeField] PatrolPath patrolPath;
         [SerializeField] float waypointTolerance = 1f;
         [SerializeField] float waypointDweelTime = 3f;
-        
+        [Range(0,1)]
+        [SerializeField] float patrolSpeedFraction = 0.2f; /* % of that speed */
+
+
+
         GameObject player;
         Health health;
         Mover mover;
@@ -27,6 +31,7 @@ namespace RPG.Control
         float timeSinceLastSawPlayer = Mathf.Infinity;
         float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         int currentWaypointIndex = 0;
+
 
         private void Start()
         {
@@ -79,7 +84,7 @@ namespace RPG.Control
             }
             if(timeSinceArrivedAtWaypoint > waypointDweelTime)
             {
-                mover.StartMoveAction(nextPosition);
+                mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }
             
         }
