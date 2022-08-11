@@ -21,11 +21,12 @@ namespace RPG.Saving
         public object CaptureState()
         {
             Dictionary<string, object> state = new Dictionary<string, object>();
-            foreach (ISaveable saveable in GetComponents<ISaveable>())
+            foreach (ISaveable saveable in GetComponents<ISaveable>()) 
             {
                 state[saveable.GetType().ToString()] = saveable.CaptureState(); /* Give the runtime Type, for example, Mover, Health */
             }
-            return state;
+            return state; 
+            
         }
 
         public void RestoreState(object state)

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using RPG.Core;
 using RPG.Saving;
+using RPG.Attributes;
 
 namespace RPG.Movement
 {
@@ -79,7 +80,6 @@ namespace RPG.Movement
             return data;
         }
 
-        /* ISaveable */
         public void RestoreState(object state)
         {
             MoverSaveData data = (MoverSaveData)state;
