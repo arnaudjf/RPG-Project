@@ -1,5 +1,3 @@
-
-
 namespace RPG.Stats
 {
     public enum CharacterClass
@@ -9,5 +7,4 @@ namespace RPG.Stats
         Mage,
         Archer
     }
-
 }

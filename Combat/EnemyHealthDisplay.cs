@@ -18,9 +18,10 @@ namespace RPG.Combat
             if(fighter.GetTargetHealth() == null)
             {
                 GetComponent<TextMeshProUGUI>().SetText("N/A");
+                return;
             }
             Health health = fighter.GetTargetHealth();
-            GetComponent<TextMeshProUGUI>().SetText("{0:0.0}%", health.GetPercentage());
+            GetComponent<TextMeshProUGUI>().SetText("{0:0}/{1:0}", health.GetHealthPoint(), health.GetMaxHealthPoints());
         }
     }
 }

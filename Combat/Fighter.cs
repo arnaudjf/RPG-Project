@@ -5,11 +5,11 @@ using RPG.Movement;
 using RPG.Core;
 using RPG.Saving;
 using RPG.Attributes;
-
+using RPG.Stats;
 
 namespace RPG.Combat
 {
-    public class Fighter : MonoBehaviour, IAction, ISaveable
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
 
         [SerializeField] Health target;
@@ -83,13 +83,16 @@ namespace RPG.Combat
         {
             //this will trigger the hit() event.
             if (target == null) { return; }
+
+            float damage = GetComponent<BaseStats>().GetStats(Stat.Damage);
             if(currentWeapon.HasProjectile())
             {
-                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target);
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
             }
             else
             {
-                target.TakeDomage(currentWeapon.GetWeaponDomage());
+                
+                target.TakeDamage(gameObject, damage);
             }
             
         }
@@ -133,6 +136,14 @@ namespace RPG.Combat
             GetComponent<Animator>().ResetTrigger("attack");
             GetComponent<Animator>().SetTrigger("stopAttack");
         }
+        
+        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        {
+            if(stat == Stat.Damage)
+            {
+                yield return currentWeapon.GetWeaponDomage();
+            }
+        }
 
         public object CaptureState()
         {
@@ -145,5 +156,7 @@ namespace RPG.Combat
             SO_Weapons weapon = Resources.Load<SO_Weapons>(weaponName);
             EquipWeapon(weapon);
         }
+
+        
     }
 }
